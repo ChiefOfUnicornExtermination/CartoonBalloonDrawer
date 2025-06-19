@@ -1,0 +1,149 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Balloon Drawer Javascript Library sandbox">
+  <meta name="keywords" content="HTML, JavaScript, Library, Canvas">
+  <meta name="author" content="Chief Unicorn Extermination Section">
+  <meta name="application-name" content="Balloon Drawer">
+  <meta name="generator" content="my hand. scpecially the right one">
+  <!-- どの環境にもこのライブラリのものか他環境依存のものか考慮することなくそのまま流用できるよう、このサンドボックスページにはjQueryとかのライブラリを抜きで書きます。デザインなどが不要に冗長になってますがご了承ください。  -->
+  <script type="text/javascript" src="./sandbox.js"></script>
+  <link rel="stylesheet" href="./sandbox.css" />
+  <title>Balloon Drawer Javascript Library sandbox</title>
+  <script type="module" src="drawballoon.js"></script>
+</head>
+<body>
+<h1>フキダシメーカーサンドボックス</h1>
+ <div id="content">
+  <div id="canvasarea">
+   <span id="canvasframe" style="width:600; height:800; display:inline-block">
+     <span class="grid"></span>
+	 <span id="bgimagearea"><img id="bgimage" /></span>
+     <span class="transparentbg"></span>
+     <canvas id="predrawingcanvas" width=600 height=800></canvas>
+     <canvas id="sandboxcanvas" width=600 height=800></canvas>
+   </span>
+  </div>
+  <div id="toolarea">
+    <h2>フキダシ設定</h2>
+	<h3>フキダシ形状</h3>
+	<div><h4>フキダシ種類</h4><select id="balloonkind"></select></div>
+	<div><h4>でっぱり度</h4><input type="textbox" class="slider" id="swellity" width="150" showlabel="right" value="2" max="20" scale="2" /></div>
+	<div><h4>でっぱり扁平率</h4><input type="textbox" class="slider" id="swellAspect" width="150" min="0" value="0.5" max="1" scale="0.5" /></div>
+	<h3>フキダシ領域</h3>
+	<div><h4>中心位置</h4><input id="balloonpositionx" type="text" value="300" />×<input id="balloonpositiony" type="text" value="400" /></div>
+	<div><h4>内部サイズ</h4><input id="balloonwidth" type="text" value="100" />×<input id="balloonheight" type="text" value="200" /></div>
+	<div><h4>色</h4><input type="textbox" id="balloonbgcolor" class="colorpicker" value="#ffffff" width="6" /></div>
+	<div><h4>不透明度</h4><input type="textbox" class="slider" id="balloonopacity" width="200" showlabel="right" value="1" min="0" max="1" scale="0.1" /></div>
+	<div><h4>シッポ</h4><input id="havingtail" type="checkbox" /></div>
+	<span id="tailarea">
+		<div><h4>シッポ線</h4><select id="tailkind"></select></div>
+		<div class="wider"><h4>シッポ位置</h4><input id="tailangle" type="text" class="anglepicker" value="2.54" /></div>
+		<div><h4>シッポ太さ</h4><input id="tailwidth" type="text" class="slider" value="0.4" min="0.2" max="2" size="0.2" /></div>
+		<div><h4>シッポ長さ</h4><input id="taillength" type="text" class="slider" value="0.45" min="0", max="1" scale="0.1" /></div>
+		<div><h4>シッポ方向</h4><input id="taildirection" type="text" class="anglepicker" value="2.8" /></div>
+	</span>
+	<h3>フキダシ線</h3>
+	<div><h4>線種類</h4><select id="linekind"></select></div>
+	<div id="linesamplearea"><canvas id="linesamplecanvas" width="340" height="60"></canvas></div>
+	<div><h4>間隔</h4><input type="textbox" class="slider" id="linedensity" width="150" value="2.2" min="2" max="8" /></div>
+	<div class="wider"><h4>大きさ</h4><input type="textbox" class="slider" id="lineheight" width="150" showlabel="bottom" min="0" value="30" max="100" /><select id="sizeunit"><option value="ratio">割合</option><option value="length">長さ</option></select></div>
+	<div><h4>太さ</h4><input type="textbox" class="slider" id="linethickness" width="150" showlabel="right" value="2" max="8" /></div>
+	<div><h4>色</h4><input type="textbox" id="linecolor" class="colorpicker" value="#000000" width="6" /></div>
+	<div><h4>不透明度</h4><input type="textbox" class="slider" id="lineopacity" width="200" showlabel="right" value="1" min="0" max="1" scale="0.1" /></div>
+	<hr />
+	<div><h4>フリーハンド</h4><input id="freehandcheck" type="checkbox" /></div>
+	<div id="submitbuttonarea"><input id="submitbutton" type="button" value="描画"  onclick="draw()"/></div>
+	<hr class="systemoption" />
+	<h2>サンドボックス設定</h2>
+	<div><h4>サイズ</h4><input id="sandboxwidth" type="text" value="600" />×<input id="sandboxheight" type="text" value="800" /></div>
+	<div><h4>グリッド</h4><input id="checkbox_grid" type="checkbox" checked="checked"/></div>
+	<div><h4>ルーラー</h4><input id="checkbox_ruler" type="checkbox" checked="checked"/></div>
+	<div><h4>透明パターン</h4><input id="bgpattern" type="checkbox"/></div>
+  </div>
+  <div id="extraitemsarea">
+  <div id="promptarea">
+    <h2>セリフ設定</h2>
+    <details>デバイスのフォント情報を利用するためセキュリティ確認メッセージが出ます</details>
+	<input id="addprompt" type="button" value="追加" />
+  </div>
+<hr />
+  <div id="imagearea">
+    <h2>背景画像</h2>
+	<div><input id="imagefile" type="file" /></div>
+  </div>
+  <div id="downloadarea">
+    <h2>画像を保存</h2>
+	<div><button id="download" >ダウンロード</button></div>
+  </div>
+ </div>
+ </div>
+ <script language="javascript">
+	let balloondrawing;
+	(async () => {
+		balloondrawing = await import("./drawballoon.js");
+	})();
+	
+	let canvas = document.getElementById("sandboxcanvas"),
+	  select_balloonkind = document.getElementById("balloonkind"),
+	  textbox_balloonpositionx = document.getElementById("balloonpositionx"),
+	  textbox_balloonpositiony = document.getElementById("balloonpositiony"),
+	  textbox_balloonwidth = document.getElementById("balloonwidth"), 
+	  textbox_balloonheight = document.getElementById("balloonheight"),
+	  checkbox_havingtail = document.getElementById("havingtail"),
+	  select_tailkind = document.getElementById("tailkind"),
+	  textbox_tailwidth = document.getElementById("tailwidth"),
+	  textbox_taillength = document.getElementById("taillength"),
+	  textbox_tailangle = document.getElementById("tailangle"),
+	  textbox_taildirection = document.getElementById("taildirection"),
+	  select_linekind = document.getElementById("linekind"),
+	  textbox_linecolor = document.getElementById("linecolor"),
+	  textbox_lineheight = document.getElementById("lineheight"),
+	  textbox_lineopacity = document.getElementById("lineopacity"),
+	  textbox_linethickness = document.getElementById("linethickness"),
+	  select_sizeunit = document.getElementById("sizeunit"),
+	  textbox_linedensity = document.getElementById("linedensity"),
+	  textbox_swellity = document.getElementById("swellity"),
+	  textbox_swellAspect = document.getElementById("swellAspect"),
+	  textbox_balloonbgcolor = document.getElementById("balloonbgcolor"),
+	  textbox_balloonopacity = document.getElementById("balloonopacity");
+	let ctx = canvas.getContext("2d");
+ 
+	var draw = function (targetcontext) {
+		let position = {
+				x: textbox_balloonpositionx.value,
+				y: textbox_balloonpositiony.value};
+		let rect = { width: textbox_balloonwidth.value, height: textbox_balloonheight.value};
+		let tail = null;
+		if (checkbox_havingtail.checked) {
+			tail = {type: select_tailkind.value, width: textbox_tailwidth.value, length: textbox_taillength.value, angle: textbox_tailangle.value, direction: textbox_taildirection.value};
+		}
+		
+		balloondrawing.drawBalloon(targetcontext??ctx,
+			/* フキダシ（全体形状）の設定値 */{
+				type: select_balloonkind.value,
+				color: textbox_balloonbgcolor.value,
+				opacity: textbox_balloonopacity.value,
+				position: position,
+				rect: rect,
+				swellity: textbox_swellity.value,
+				swellAspect: Math.pow(2, textbox_swellAspect.value - 0.5),
+				tail: tail},
+			/* 線パターンの設定値 */{
+				type: select_linekind.value,
+				color: textbox_linecolor.value,
+				size: select_sizeunit.value=="length"?textbox_lineheight.value:(textbox_lineheight.value*(Math.abs(rect.width)+Math.abs(rect.height))/200),
+				opacity: textbox_lineopacity.value,
+				step: textbox_linedensity.value/64*Math.PI*2,
+				thickness: textbox_linethickness.value
+				});
+	}
+ </script>
+ <footer>
+ <strong>&copy;ユニコーン駆除課2025</strong>
+ <div>MIT-AI free <details><small>このページ上のコンテンツ、ソースコード、データすべての著作権はユニコーン駆除課に帰属するもので、<wbr />その利用はMITライセンスに依属し、商用非商用に関わらずすべての範疇で自由に利用していただけます。そこで発生した損害などには一切の責任を負いません。<br/>
+ このコンテンツは作成から公開にいたるまで一切のAI利用がされていません。将来おいて利用AIの深層データ利用状況に基づいたコンテンツの制限や提示が義務付けられた際、<wbr />AIを利用しない範疇において最も低度なAI非使用コンテンツとしての利用がしていただけます。<br />
+ このコンテンツを再利用する際、作成データ、プログラム、デザイン等分野を問わず、AIを利用した環境ではAI freeとしての利用は禁止します。<wbr />ライセンス記述からAI freeを除去したうえで利用してください</small></details></div>
+ </footer>
+</body>
+</html>
