@@ -58,7 +58,6 @@ export class Vector2DSimple {
 export const lines = {
 	"simpleline" : {
 		name: "直線で結ぶだけ",
-		defaultvalue: true,
 		progresses: {
 			0: (d) => {
 					d.ln(0, 0);
@@ -67,6 +66,7 @@ export const lines = {
 	},
 	"zigzag" : {
 		name: "均一ギザギザ",
+		defaultvalue: true,
 		progresses: {
 			0.5: (d) => {
 					d.ln(0.5, 1);
@@ -154,7 +154,6 @@ export const tails = {
 	// 【未実装】
 	"curve1" : {
 		name: "【未実装】円弧",
-		defaultvalue: true,
 		draw: function (start, end, top, d) {
 			d.ctx.lineTo(start.x, start.y);
 			
@@ -340,6 +339,7 @@ let getRange = function(points, range) {
 export const balloons = {
 	"four-focused-ovalrect": {
 		name: "四焦点角楕円",
+		defaultvalue: true,
 		trace: function* (starttheta, endtheta, step, b){
 			let returnarray = [];
 			let range = {};
@@ -543,7 +543,6 @@ export const balloons = {
 	},
 	"superrect": {
 		name: "【仮実装】スーパー四角",
-		defaultvalue: true,
 		trace: function* (starttheta, endtheta, step, b){
 			let returnarray = [];
 			let range = {};
