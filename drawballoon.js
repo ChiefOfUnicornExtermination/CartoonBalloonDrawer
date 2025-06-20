@@ -49,6 +49,18 @@ export class Vector2DSimple {
 }
 
 /**
+* ベジエ引くための「中間地点」を求める便利メソッド。点(x1, y1)から点(x3, y3)に向かう途中の点(x2, y2)における(x1, y1)-(x3, y3)線と平行な線上の前中間地点と後中間地点の座標を返す。なんかこんがらがりそうだったので中学の教科書を読み直してなんとかした！
+*/
+let getMiddlePoint = function(p1, p2, p3) {
+  return {
+	p:{x: (p2.x+p1.x)/2+(p3.y-p1.y)*((p3.y-p1.y)*(p2.x-p1.x)-(p2.y-p1.y)*(p3.x-p1.x))/(2*(p3.x-p1.x)*(p3.x-p1.x)+2*(p3.y-p1.y)*(p3.y-p1.y)),
+	   y: p2.y- (p3.y-p1.y)*((p2.y-p1.y)*(p3.y-p1.y)+(p2.x-p1.x)*(p3.x-p1.x))/(2*(p3.x-p1.x)*(p3.x-p1.x)+2*(p3.y-p1.y)*(p3.y-p1.y))},
+	n:{x: (p3.x+p2.x)/2+(p3.y-p1.y)*((p3.y-p1.y)*(p2.x-p1.x)-(p2.y-p1.y)*(p3.x-p1.x))/(2*(p3.x-p1.x)*(p3.x-p1.x)+2*(p3.y-p1.y)*(p3.y-p1.y)),
+	   y: p1.y+(2*(p3.x-p1.x)*(p3.x-p1.x)*(p2.y-p1.y)+(p3.y-p1.y)*((p2.y-p1.y)*(p3.y-p1.y)+(p3.y-p1.y)*(p3.y-p1.y)+(p3.x-p1.x)*(p3.x-p1.x)-(p2.x-p1.x)*(p3.x-p1.x)))/(2*(p3.x-p1.x)*(p3.x-p1.x)+2*(p3.y-p1.y)*(p3.y-p1.y))}
+  };
+}
+
+/**
  * 線方向に対する進捗度合いごとの線
  * サンプル空間に描かれたようなこの線がフキダシなどの形状にパターンとして描かれることでパターンのある曲線を表現する
  * 線種の配列、その線種は基本的には進捗ごとの描画箇所の配列を返すが、「どこの点で」描くかなども変動するようにする場合はgetterにしてメソッド形式で戻り値としてそのデータを返す。
@@ -97,7 +109,7 @@ export const lines = {
 		name: "【未実装】てんてん",
 		get progresses(){return {
 			0.1: (d) => {
-					d.mv(-0.5, 0.5);
+					d.mv(-0.1, 0.5);
 					d.ln(0, 0);
 					d.ln(0.5, -0.5);
 					d.ln(0, -0.5);
@@ -112,28 +124,73 @@ export const lines = {
 				},
 		}}
 	},
-	"d" : {
+	"e" : {
 		name: "【未実装】ハリネズミ",
 		get progresses(){return {
 			0.1: (d) => {
-					d.mv(-0.5, 0.5);
-					d.ln(0, 0);
-					d.ln(0.5, -0.5);
-					d.ln(0, -0.5);
-					d.ln(-0.5, 0.5);
+					d.mv(0.1, -1);
+					d.ln(0.1, 0.5);
+					d.mv(0.1, -1);
+				},
+			0.2: (d) => {
+					d.mv(0.2, -0.9);
+					d.ln(0.2, 0.6);
+					d.mv(0.2, -0.9);
+				},
+			0.3: (d) => {
+					d.mv(0.3, -0.8);
+					d.ln(0.3, 0.7);
+					d.mv(0.3, -0.8);
 				},
 			0.4: (d) => {
-					d.mv(-0.3, 0.2);
-					d.ln(0.1, 0.7);
-					d.ln(1, -0.1);
-					d.ln(1, -0.2);
-					d.ln(-1, 0.5);
+					d.mv(0.4, -0.7);
+					d.ln(0.4, 0.8);
+					d.mv(0.4, -0.7);
 				},
+			0.5: (d) => {
+					d.mv(0.5, -0.6);
+					d.ln(0.5, 0.9);
+					d.mv(0.5, -0.6);
+				},
+			0.6: (d) => {
+					d.mv(0.6, -0.7);
+					d.ln(0.6, 0.8);
+					d.mv(0.6, -0.7);
+				},
+			0.7: (d) => {
+					d.mv(0.7, -0.8);
+					d.ln(0.7, 0.7);
+					d.mv(0.7, -0.8);
+				},
+			0.8: (d) => {
+					d.mv(0.8, -0.9);
+					d.ln(0.8, 0.6);
+					d.mv(0.8, -0.9);
+				},
+			0.9: (d) => {
+					d.mv(0.9, -1);
+					d.ln(0.9, 0.5);
+					d.mv(0.9, -1);
+				}
 		}}
 	},
-	"e" :  {
+	"rects" :  {
 		name: "固定間隔の四角",
-		get progresses() { }
+		progresses: {
+			0.25: (d) =>{
+				d.mv(0.25, 0);
+			},
+			0.5: (d) => {
+					d.mv(0.25, -0.25);
+					d.ln(0.25, 0.25);
+					d.ln(0.75, 0.25);
+					d.ln(0.75, -0.25);
+					d.ln(0.5, -0.25);
+				},
+			1: (d) =>{
+				d.mv(1, 0);
+			}
+		}
 	}
 };
 
@@ -154,6 +211,7 @@ export const tails = {
 	// 【未実装】
 	"curve1" : {
 		name: "【未実装】円弧",
+		defaultvalue: true,
 		draw: function (start, end, top, d) {
 			d.ctx.lineTo(start.x, start.y);
 			
@@ -363,7 +421,6 @@ export const balloons = {
 				for (let x=possiblearea_xmin; x<possiblearea_xmax; x+= 1) {
 					// 範囲を削って少しでも計算回数を減らす（意味ないかなぁ…むしろ遅くなる？）
 					if (b.position.x-b.rect.width/2<x&&x<b.position.x+b.rect.width/2&&b.position.y-b.rect.height/2<y&&y<b.position.y+b.rect.height/2) continue;
-
 					if (
 					Math.abs(b.c + b.rect.width + b.rect.height + Math.sqrt(Math.pow(b.rect.width, 2) + Math.pow(b.rect.height, 2)) - (
 						Eucrid(x, y, b.position.x-b.rect.width/2, b.position.y-b.rect.height/2) + 
@@ -554,7 +611,7 @@ export const balloons = {
 			let possiblearea_ymax = b.canvassize.height + 40;
 			for (let y=possiblearea_ymin; y<possiblearea_ymax; y+= 1) {
 				for (let x=possiblearea_xmin; x<possiblearea_xmax; x+= 1) {
-					if (Math.abs(Math.pow(Math.abs((x-b.position.x)*2/b.rect.width),3)+ Math.pow(Math.abs((y-b.position.y)*2/b.rect.height),3)-1)<0.01) dots.push({x: x, y: y, angle: (Math.PI*2+Math.atan2(y-b.position.y,x-b.position.x))%(Math.PI*2)});
+					if (Math.abs(Math.pow(Math.abs((x-b.position.x)*2/b.rect.width),b.swellity+1)+ Math.pow(Math.abs((y-b.position.y)*2/b.rect.height),b.swellity+1)-1)<0.01) dots.push({x: x, y: y, angle: (Math.PI*2+Math.atan2(y-b.position.y,x-b.position.x))%(Math.PI*2)});
 				}
 			}
 			
@@ -601,6 +658,7 @@ export class DrawingContext {
 		this.t_n = param.t_n??2; // 線分の太さ_細い場所（簡略のため「細さ」として説明したりする値）
 		this.c = param.c??20; // ふくらみ幅。角丸図形のradiusに近いイメージ。元の矩形からどの程度の余裕をもって曲線が引かれるか
 		this.c_a = param.c_a??20; // ふくらみ幅横縦比率。図形によってx方向y方向別々の値をもとに描画するため、その場合のみ使われる。メインの４焦点楕円や６楕円では使われない。常に正の値で、１が縦横同比率。少数以下が横のほうが縦より長く、１以上は縦のほうが横より長い
+		this.swellity = param.swellity??1; // ふくらみ度。通常は上記のcを使うが、図形サイズ倍されていない元の割合が使いたい場合用
 		this.next = null; // 線を引く先の位置。
 		this.current = null; // 線を引く元の位置。ループ処理では一つ前の点にあたる
 		this.previous = null; // 曲線計算用、ひとつ前の地点
@@ -635,26 +693,21 @@ export class DrawingContext {
 		let n = new Vector2DSimple({x: x*this.size, y: y*this.size});
 		n.r += this.caret.r + Math.PI/2;
 		// お手製滑らか曲線描画用中間点取得メソッドをつかってbezierCurveToを引く。ただし「ひとつまえ」「ふたつまえ」ありきの計算なので最初の２回は円弧や疑似滑らか曲線にする。本来は「戻って引き直し」すべきだがそこまではしない（出来上がりの不自然さ次第でしなきゃいけなくなるかも…）
-		if (!this.current) {
-			this.ctx.arcTo(this.next.x, this.next.y, this.caret.add(n).x, this.caret.add(n).y, Eucrid(this.next.x, this.next.y, this.caret.add(n).x, this.caret.add(n).y));
-		} else if (!this.previous || !this.previous2) {
-			this.ctx.moveTo(this.current.x, this.current.y);
-			this.ctx.fillStyle = "orange";
-			this.ctx.fillRect(this.current.x, this.current.y, 8, 8);
-			this.ctx.fillStyle = "green";
-			this.ctx.fillRect(this.next.x, this.next.y, 8, 8);
-			this.ctx.fillStyle = "red";
-			this.ctx.fillRect(this.caret.add(n).x, this.caret.add(n).y, 8, 8);
-			this.ctx.lineTo(this.current.x, this.current.y);
+		// なんか計算が合わない。修正中・・・
+		if (!this.previous) return;
+		let middlepoint_n;
+		let next = new Vector2DSimple(this.next);
+		let current = new Vector2DSimple(this.current);
+		if (!this.previous2) {
+			middlepoint_n = getMiddlePoint({x: this.previous.x, y: this.previous.y}, {x: this.current.x, y: this.current.y}, {x: next.add(n).x, y: next.add(n).y});
+			this.ctx.lineTo (this.current.x, this.current.y);
 		} else {
-			let middlepoints_p = getMiddlePoint(this.previous2.x, this.previous2.y, this.previous.x, this.previous.y, this.current.x, this.current.y);
-			let middlepoints_n = getMiddlePoint(this.previous.x, this.previous.y, this.current.x, this.current.y, this.next.add(n).x, this.next.add(n).y);
-			this.ctx.bezierCurveTo (middlepoints_p[2], middlepoints_p[3], middlepoints_n[0], middlepoints_n[1], this.current.x, this.current.y);
-			// current(実際はひとつまえ)までを引く計算なので（「次」はそのあとどこへ向かうかわからないのでまだ滑らかな線が引けない）、ループ終了後に引ききれなかった分を引いてもらうために積み残しを残す
-			// TODO: このあとでac以外が呼ばれていたら…などのパターンが消化できない。要再考
-			let ctx = this.ctx;
-			this.leftover = function (){ctx.quadraticCurveTo (middlepoints_n[2], middlepoints_n[3], d.next.x, d.next.y);}
+			middlepoint_n = getMiddlePoint({x: this.previous2.x, y: this.previous2.y}, {x: this.previous.x, y: this.previous.y}, {x: current.add(n).x, y: current.add(n).y});
+			this.ctx.bezierCurveTo (this.middlepoint_p.n.x, this.middlepoint_p.n.y, middlepoint_n.p.x, middlepoint_n.p.y, this.current.x, this.current.y);
 		}
+		// TBD:「２つ前の点」が要るので今回の「一つ前」を次回「前々回の点」として使うため確保しているが、この実装は間違い。曲線の直前が必ずしも曲線とは限らないため。要再考
+		this.previous2 = this.previous;
+		this.middlepoint_p = middlepoint_n;
 	}
 	// 【作成中】常に垂直方向に引く線
 	vl(x, y, l){
@@ -672,6 +725,7 @@ export function drawBalloon (ctx, balloonparam, lineparam){
 	let drawingparam = {
 		position: { x: parseFloat(balloonparam.position.x), y: parseFloat(balloonparam.position.y) },
 		rect: { width: Math.abs(balloonparam.rect.width), height: Math.abs(balloonparam.rect.height) },
+		swellity: parseFloat(balloonparam.swellity),
 		c: parseFloat(balloonparam.swellity * (Math.abs(balloonparam.rect.width) + Math.abs(balloonparam.rect.height))/20),
 		c_a: balloonparam.swellAspect,
 		size: lineparam.size

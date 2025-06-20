@@ -587,19 +587,21 @@ let initializeSandbox = function(){
 			fontoption.innerText = font.key;
 			fontselect.append(fontoption);
 		}
-		const availableFonts = window.queryLocalFonts();
-		availableFonts.then((fonts) => {
-			
-			for (const fontData of fonts) {
-				let fontoption = document.createElement("option");
-				fontoption.innerText = fontData.fullName;
-				fontoption.innerText = fontData.family;
-				fontselect.append(fontoption);
-			}
-			if (fontselect.options.length) {
-				fontselect.style["display"] = "inline-block";
-			}
-		});
+		if (typeof window.queryLocalFonts === "function"){
+			const availableFonts = window.queryLocalFonts();
+			availableFonts.then((fonts) => {
+				for (const fontData of fonts) {
+					let fontoption = document.createElement("option");
+					fontoption.innerText = fontData.fullName;
+					fontoption.innerText = fontData.family;
+					fontselect.append(fontoption);
+				}
+				if (fontselect.options.length) {
+					fontselect.style["display"] = "inline-block";
+				}
+			});
+		}
+		
 		addEvent(fontselect, "change", ()=>{if (event.target.value) prompt.style["fontFamily"] = event.target.value});
 		if (fontselect.options.length) {
 			fontselect.style["display"] = "inline-block";
