@@ -106,27 +106,57 @@ export const lines = {
 		}
 	},
 	"d" : {
-		name: "【未実装】てんてん",
+		name: "【未実装】まるまる",
 		get progresses(){return {
-			0.1: (d) => {
-					d.mv(-0.1, 0.5);
-					d.ln(0, 0);
-					d.ln(0.5, -0.5);
-					d.ln(0, -0.5);
-					d.ln(-0.5, 0.5);
-				},
-			0.4: (d) => {
-					d.mv(-0.3, 0.2);
-					d.ln(0.1, 0.7);
-					d.ln(1, -0.1);
-					d.ln(1, -0.2);
-					d.ln(-1, 0.5);
-				},
+			0.0: (d) =>{
+				d.mv(0, 0);
+			},
+			0.5: (d) => {
+				let radius = d.size;
+				if (d.current?.x&&d.next?.x&&d.rect?.x) {
+					radius = (d.next.x - d.current.x)/Eucrid(d.rect.x, d.rect.y);
+				}
+					d.cir(0.5, 0.5, radius * d.swellity, radius / d.swellity);
+				}
 		}}
 	},
 	"e" : {
-		name: "【未実装】ハリネズミ",
+		name: "【未実装】てんてん",
 		get progresses(){return {
+			0.0: (d) =>{
+				// TBD:つながってない線パターンが開始点で変にならないようにするお守り。対応できたら消す
+				d.mv(0, 0);
+			},
+			0.1: (d) => {
+					d.mv(0.1, 0.1);
+					d.ln(0, 0);
+					d.ln(0.1, -0.1);
+					d.ln(0.2, 0);
+					d.ln(0.1, 0.1);
+				},
+			0.4: (d) => {
+					d.mv(0.4, 0.2);
+					d.ln(0.2, 0);
+					d.ln(0.4, -0.2);
+					d.ln(0.6, 0);
+					d.ln(0.4, 0.2);
+				},
+			0.8: (d) => {
+					d.mv(0.8, 0.03);
+					d.ln(0.77, 0);
+					d.ln(0.8, -0.03);
+					d.ln(0.83, 0);
+					d.ln(0.8, 0.03);
+				},
+		}}
+	},
+	"tinylines" : {
+		name: "【未実装】せんせん",
+		get progresses(){return {
+			0.0: (d) =>{
+				// TBD:つながってない線パターンが開始点で変にならないようにするお守り。対応できたら消す
+				d.mv(0, 0);
+			},
 			0.1: (d) => {
 					d.mv(0.1, -1);
 					d.ln(0.1, 0.5);
@@ -171,25 +201,103 @@ export const lines = {
 					d.mv(0.9, -1);
 					d.ln(0.9, 0.5);
 					d.mv(0.9, -1);
+				},
+			1: (d) => {
+					d.mv(1, -1);
+					d.ln(1, 0.5);
+					d.mv(1, -1);
+				}
+		}}
+	},
+	"hedgehog" : {
+		name: "【未実装】ハリネズミ",
+		get progresses(){return {
+			0.0: (d) =>{
+				// TBD:つながってない線パターンが開始点で変にならないようにするお守り。対応できたら消す
+				d.mv(0, 0);
+			},
+			0.1: (d) => {
+					d.mv(0.1, -0.2);
+					d.ln(0.1, 0.2);
+					d.mv(0.1, -0.2);
+				},
+			0.2: (d) => {
+					d.mv(0.2, -0.1);
+					d.ln(0.2, 0.3);
+					d.mv(0.2, -0.1);
+				},
+			0.3: (d) => {
+					d.mv(0.3, 0);
+					d.ln(0.3, 0.4);
+					d.mv(0.3, 0);
+				},
+			0.4: (d) => {
+					d.mv(0.4, 0.1);
+					d.ln(0.4, 0.5);
+					d.mv(0.4, 0.1);
+				},
+			0.5: (d) => {
+					d.mv(0.5, 0.2);
+					d.ln(0.5, 0.6);
+					d.mv(0.5, 0.2);
+				},
+			0.6: (d) => {
+					d.mv(0.6, 0.1);
+					d.ln(0.6, 0.5);
+					d.mv(0.6, 0.1);
+				},
+			0.7: (d) => {
+					d.mv(0.7, 0);
+					d.ln(0.7, 0.4);
+					d.mv(0.7, 0);
+				},
+			0.8: (d) => {
+					d.mv(0.8, -0.1);
+					d.ln(0.8, 0.3);
+					d.mv(0.8, -0.1);
+				},
+			0.9: (d) => {
+					d.mv(0.9, -0.2);
+					d.ln(0.9, 0.2);
+					d.mv(0.9, -0.2);
+				},
+			1: (d) => {
+					d.mv(1, -0.2);
+					d.ln(1, 0.2);
+					d.mv(1, -0.2);
 				}
 		}}
 	},
 	"rects" :  {
 		name: "固定間隔の四角",
 		progresses: {
-			0.25: (d) =>{
-				d.mv(0.25, 0);
+			0.0: (d) =>{
+				// TBD:つながってない線パターンが開始点で変にならないようにするお守り。対応できたら消す
+				d.mv(0, 0);
 			},
 			0.5: (d) => {
 					d.mv(0.25, -0.25);
 					d.ln(0.25, 0.25);
 					d.ln(0.75, 0.25);
 					d.ln(0.75, -0.25);
-					d.ln(0.5, -0.25);
-				},
-			1: (d) =>{
-				d.mv(1, 0);
-			}
+					d.ln(0.25, -0.25);
+				}
+		}
+	},
+	"rects2" :  {
+		name: "広がる台形",
+		progresses: {
+			0.0: (d) =>{
+				// TBD:つながってない線パターンが開始点で変にならないようにするお守り。対応できたら消す
+				d.mv(0, 0);
+			},
+			0.5: (d) => {
+					d.mv(0.4, -0.25);
+					d.ln(0.25, 0.25);
+					d.ln(0.75, 0.25);
+					d.ln(0.6, -0.25);
+					d.ln(0.4, -0.25);
+				}
 		}
 	}
 };
@@ -397,7 +505,6 @@ let getRange = function(points, range) {
 export const balloons = {
 	"four-focused-ovalrect": {
 		name: "四焦点角楕円",
-		defaultvalue: true,
 		trace: function* (starttheta, endtheta, step, b){
 			let returnarray = [];
 			let range = {};
@@ -475,7 +582,8 @@ export const balloons = {
 		}
 	},
 	"sixovals": {
-		name: "【未実装】六楕円",
+		name: "【仮実装】六楕円",
+		defaultvalue: true,
 		trace: function* (starttheta, endtheta, step, b){
 		// 【作成中】
 		//	let r = Eucrid(b.rect.width, b.rect.height)/2;
@@ -488,6 +596,86 @@ export const balloons = {
 		//			yield ({x: , y: ,r: });
 		//		}
 		//	}
+		
+		
+			// そもそも楕円の計算にてこずっているので一時的に四焦点楕円と同じく点ばらまいて対象を全出しするしょっぱいロジックで一時実装
+			let returnarray = [];
+			let range = {};
+			let dots = [];
+			
+			let possiblearea_xmin = b.position.x-b.rect.width-b.rect.height/2-b.c/2;
+			let possiblearea_xmax = b.position.x+b.rect.width+b.rect.height/2+b.c/2;
+			let possiblearea_ymin = b.position.y-b.rect.width/2-b.rect.height-b.c/2;
+			let possiblearea_ymax = b.position.y+b.rect.width/2+b.rect.height+b.c/2;
+			possiblearea_xmin = possiblearea_xmin < 0 ? 0 : possiblearea_xmin;
+			possiblearea_xmax = b.canvassize.width < possiblearea_xmax ? b.canvassize.width : possiblearea_xmax;
+			possiblearea_ymin = possiblearea_ymin < 0 ? 0 : possiblearea_ymin;
+			possiblearea_ymax = b.canvassize.height < possiblearea_ymax ? b.canvassize.height : possiblearea_ymax;
+			possiblearea_xmin -= 40;
+			possiblearea_xmax += 40;
+			possiblearea_ymin -= 40;
+			possiblearea_ymax += 40;
+			let rx1 = b.position.x-b.rect.width/2,
+				rx2 = b.position.x+b.rect.width/2,
+				ry1 = b.position.y-b.rect.height/2,
+				ry2 = b.position.y+b.rect.height/2;
+			let p1 = {x: rx1, y: ry1},
+				p2 = {x: rx2, y: ry1},
+				p3 = {x: rx1, y: ry2},
+				p4 = {x: rx2, y: ry2};
+			for (let y=possiblearea_ymin; y<possiblearea_ymax; y+= 1) {
+				for (let x=possiblearea_xmin; x<possiblearea_xmax; x+= 1) {
+					if (b.position.x-b.rect.width/2<x&&x<b.position.x+b.rect.width/2&&b.position.y-b.rect.height/2<y&&y<b.position.y+b.rect.height/2) continue;
+					let point = new Point(x, y);
+					
+					if (x < rx1 && !(y < ry1) && !(ry2 < y)) {
+						if (Math.abs(b.c - (Eucrid(p1, point) + Eucrid(p3, point) - b.rect.height)) < 0.4) dots.push({x: x, y: y, angle: (Math.PI*2+Math.atan2(y-b.position.y,x-b.position.x))%(Math.PI*2)});
+					} else if (rx2 < x  && !(y < ry1) && !(ry2 < y)){
+						if (Math.abs(b.c - (Eucrid(p2, point) + Eucrid(p4, point) - b.rect.height)) < 0.4) dots.push({x: x, y: y, angle: (Math.PI*2+Math.atan2(y-b.position.y,x-b.position.x))%(Math.PI*2)});
+					} else if (x < rx1 && y < ry1||rx2 < x && ry2 < y){
+						if (Math.abs(b.c - (Eucrid(p3, point) + Eucrid(p2, point) - b.rect.width - b.rect.height)) < 0.4) dots.push({x: x, y: y, angle: (Math.PI*2+Math.atan2(y-b.position.y,x-b.position.x))%(Math.PI*2)});
+					} else if (rx2 < x && y < ry1||x < rx1 && ry2 < y) {
+						if (Math.abs(b.c - (Eucrid(p1, point) + Eucrid(p4, point) - b.rect.width - b.rect.height)) < 0.4) dots.push({x: x, y: y, angle: (Math.PI*2+Math.atan2(y-b.position.y,x-b.position.x))%(Math.PI*2)});
+					} else if (!(x < rx1) && !(rx2 < x) && y < ry1) {
+						if (Math.abs(b.c - (Eucrid(p1, point) + Eucrid(p2, point) - b.rect.width)) < 0.4) dots.push({x: x, y: y, angle: (Math.PI*2+Math.atan2(y-b.position.y,x-b.position.x))%(Math.PI*2)});
+					} else if (!(x < rx1) && !(rx2 < x) && ry2 < y) {
+						if (Math.abs(b.c - (Eucrid(p3, point) + Eucrid(p4, point) - b.rect.width)) < 0.4)  dots.push({x: x, y: y, angle: (Math.PI*2+Math.atan2(y-b.position.y,x-b.position.x))%(Math.PI*2)});
+					}
+				}
+			}
+			
+			// 割合（0~1）を渡されたら該当の点を返すメソッド
+			let returnfunc = function(progress) {
+				return getBiggestRadianUpto(returnarray, range.start.angle + step * progress, step)
+			}
+			
+			// 指定位置から一周分まわる。比較しやすいように360度を超えても361度…のような数値で表していく
+			for (let cursor = starttheta; cursor < endtheta-step; cursor+= step) {
+				returnarray = []; // 戻り値をリセット。最後にハンパ分も返したいのでここで定義はせずにメソッド冒頭で定義する
+				range = {};
+				// stepきざみで周をまわり、その単位の中でさらに詳細度合い単位で取得。…っていらないか？どうせstepごとに返せばいいからそれまでの全部出せばいいのか？
+				//for (let tick = cursor; tick < cursor+step; tick+= fineness) {
+					// 収集してきた点集合を確認し、範囲に含まれるものをすべて取得して結果の中にいれる。処理の関係上「今の点から次までの範囲」となるため最後は少しオーバーする。そうなっては困る処理を書かないように
+					for (let dotindex in dots){
+						// 「その点が今のカーソル以上今のカーソル＋stepまでの範囲にあるようなら、返せ」だけの話だけど、角度が周を回るもので大小とかないものだから計算はめっちゃめんどくなる。結局外メソッドにした。負荷でかいかなぁ…
+						if(radianBiggerThan(cursor, dots[dotindex].angle, step)){
+							returnarray.push(dots[dotindex]);
+						}
+					}
+					if (returnarray?.length) {
+						range = getRange(returnarray, step);
+						// 渡されたstep単位ごとにそれまでの範囲で収集してきた点集合を参照できる描画用オブジェクトを返す。dots[i]の型はベクトル型と似ていて間違えやすい（開発中何度も取り違えミスでバグだした）ので、バラしてそれぞれの値としてプロパティに詰める
+						yield {startangle: range.start.angle, endangle: range.end.angle, startpoint: new Point({x: range.start.x, y: range.start.y}), endpoint: new Point({x: range.end.x, y: range.end.y}), obtainpoint: returnfunc};
+						
+					} else {
+						// 形状によってはステップ内にひとつも点が存在しないこともある。その場合はnullを返して呼び元側でさばいてもらう
+						yield null;
+					}
+				//}
+			}
+			if (range?.start) { // 「積み残し」がある場合（普通はある）は最後にその分を返す
+				yield {startangle: range.start.angle, endangle: range.end.angle, startpoint: new Point({x: range.start.x, y: range.start.y}), endpoint: new Point({x: range.end.x, y: range.end.y}), obtainpoint: returnfunc, laststep: true};
+			}
 		}
 	},
 	"rectangle": {
@@ -560,6 +748,7 @@ export const balloons = {
 			let possiblearea_ymax = b.canvassize.height + 40;
 			for (let y=possiblearea_ymin; y<possiblearea_ymax; y+= 1) {
 				for (let x=possiblearea_xmin; x<possiblearea_xmax; x+= 1) {
+					// 仮メソッドなので判定値1/4^2とか許容誤差2とかすごく適当。正式実装した際はこの辺も変わる。そもそも固定値ではなくなると思う
 					if (Math.abs(Eucrid({x:x,y:y}, focus_a) + Eucrid({x:x,y:y}, focus_b) - b.c*Eucrid(focus_a, focus_b)/16)< 2)　dots.push({x: x, y: y, angle: (Math.PI*2+Math.atan2(y-b.position.y,x-b.position.x))%(Math.PI*2)});
 				}
 			}
@@ -670,7 +859,7 @@ export class DrawingContext {
 	// 線を引かずに移動
 	mv(x, y) {
 		if (!this.next) return;
-		let linedpoint = new Vector2DSimple(this.current).add( new Vector2DSimple({x: x*Eucrid(this.startpoint, this.endpoint)-Eucrid(this.startpoint, this.next), y: y*this.size}).rotate(this.caret.r + Math.PI));
+		let linedpoint = new Vector2DSimple(this.next).add( new Vector2DSimple({x: x*Eucrid(this.startpoint, this.endpoint)-Eucrid(this.startpoint, this.next), y: y*this.size}).rotate(this.caret.r + Math.PI));
 		this.ctx.moveTo(linedpoint.x, linedpoint.y);
 	}
 	// 直線
@@ -716,6 +905,13 @@ export class DrawingContext {
 	hl(x,y, l){}
 	// 【作成中】線分の進行方向に対して引く線
 	fl(x,y){}
+	// 線ではなく指定の位置に円を描く
+	cir(x, y, rX, rY, ang) {
+		if (!this.next) return;
+		let linedpoint = new Vector2DSimple(this.next).add( new Vector2DSimple({x: x*Eucrid(this.startpoint, this.endpoint)-Eucrid(this.startpoint, this.next), y: y*this.size}).rotate(this.caret.r + Math.PI));
+		this.ctx.moveTo(linedpoint.x, linedpoint.y);
+		this.ctx.arc(linedpoint.x, linedpoint.y, rX, 0, Math.PI*2);
+	}
 }
 
 /**
